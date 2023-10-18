@@ -12,6 +12,7 @@
 - [Docker設定](#docker設定)
 - [データベースの設定](#データベースの設定)
 - [品質改善ツール](#品質改善ツール)
+- [テストの実行](#テストの実行)
 - [GitHub Actionsの設定](#github-actionsの設定)
 
 ### プロジェクトディレクトリ構成
@@ -25,13 +26,17 @@ project-root/
 │   ├── workflows/            # CI/CD パイプラインの定義
 │       ├── test_workflow.yml # テストワークフローの定義
 │
-│
 ├── cmd/                      # メインアプリケーション
 │   ├── server/               # サーバーのエントリーポイント
 │
 ├── internal/                 # 内部パッケージ
 │   ├── config/               # アプリケーションの設定や環境変数を管理
 │   ├── domain/               # ドメインロジック
+│       ├── entities/         # エンティティの定義
+│       ├── value_objects/    # バリューオブジェクトの定義
+│       ├── aggregates/       # アグリゲートの定義
+│       ├── utilities/        # ドメイン層で使用する共通のユーティリティ関数やコンポーネント
+│       └── repositories/     # リポジトリのインターフェース定義
 │   ├── infrastructure/       # インフラストラクチャ
 │   ├── interfaces/           # インタフェース
 │   ├── middleware/           # ミドルウェアのロジック (例: 認証ミドルウェア、ロギングミドルウェアなど)
@@ -42,9 +47,7 @@ project-root/
 ├── pkg/                      # 外部で利用可能なパッケージ
 │
 ├── Dockerfile                # Docker のビルドファイル
-├── docker-compose.yml        # Docker Compose の設定ファイル
-├── go.mod                    # Go のモジュール依存関係
-└── go.sum                    # Go のモジュール依存関係のチェックサム
+├── docker-compose.yml        # Docker Compose の設定ファ
 ```
 
 ### 環境設定
@@ -142,6 +145,13 @@ golangci-lint run
 ```bash
 gofmt -w .
 ```
+
+### テストの実行
+
+```bash
+go test ./internal
+```
+
 
 ### GitHub Actionsの設定
 
