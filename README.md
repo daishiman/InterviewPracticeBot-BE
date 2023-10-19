@@ -12,6 +12,7 @@
 - [Docker設定](#docker設定)
 - [データベースの設定](#データベースの設定)
 - [品質改善ツール](#品質改善ツール)
+- [Swaggerの実行](#Swaggerの実行)
 - [テストの実行](#テストの実行)
 - [GitHub Actionsの設定](#github-actionsの設定)
 
@@ -74,7 +75,9 @@ go get -u github.com/gorilla/mux \
         gorm.io/gorm \
         gorm.io/plugin/dbresolver \
         github.com/smartystreets/goconvey \
-        github.com/go-sql-driver/mysql
+        github.com/go-sql-driver/mysql \
+        github.com/google/uuid \
+        github.com/go-swagger/go-swagger/cmd/swagger
 ```
 
 #### PlanetScaleのセットアップ
@@ -145,6 +148,13 @@ golangci-lint run
 ```bash
 gofmt -w .
 ```
+
+### Swaggerの実行
+
+```bash
+swagger generate spec -o ./swagger.json
+```
+
 
 ### テストの実行
 
