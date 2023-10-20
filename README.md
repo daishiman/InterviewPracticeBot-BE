@@ -42,13 +42,15 @@ project-root/
 │   ├── interfaces/           # インタフェース
 │   ├── middleware/           # ミドルウェアのロジック (例: 認証ミドルウェア、ロギングミドルウェアなど)
 │   └── usecase/              # ユースケース
+│       └── userusecase/      # InterviewPracticeBot-BEのユースケース
+│           ├── mock/         # このディレクトリにモックを配置
 │
 ├── migrations/               # データベースマイグレーションファイル
 │
 ├── pkg/                      # 外部で利用可能なパッケージ
 │
 ├── Dockerfile                # Docker のビルドファイル
-├── docker-compose.yml        # Docker Compose の設定ファ
+└── docker-compose.yml        # Docker Compose の設定ファイル
 ```
 
 ### 環境設定

@@ -3,37 +3,22 @@ package aggregates
 import (
 	"InterviewPracticeBot-BE/internal/domain/entities"
 	"InterviewPracticeBot-BE/internal/domain/repositories"
-	"InterviewPracticeBot-BE/internal/domain/utilities"
 	"InterviewPracticeBot-BE/internal/domain/value_objects"
 	"errors"
-	"time"
 )
 
 type UserAggregate struct {
 	User *entities.UserPrivate
 }
 
-func NewUserAggregate(email, rawPassword string) (*UserAggregate, error) {
-	emailVO, err := value_objects.NewEmail(email)
-	if err != nil {
-		return nil, err
-	}
-
-	passwordVO, err := value_objects.NewPassword(rawPassword)
-	if err != nil {
-		return nil, err
-	}
-
-	user := &entities.UserPrivate{
-		ID:        utilities.GenerateUUID(),
-		Email:     *emailVO,
-		Password:  *passwordVO,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-	return &UserAggregate{
-		User: user,
-	}, nil
+func NewUserAggregate(factory *UserFactory, email, rawPassword string) (*UserAggregate, error) {
+  user, err := factory.CreateUser(email, rawPassword)
+  if err != nil {
+    return nil, err
+  }
+  return &UserAggregate{
+    User: user,
+  }, nil
 }
 
 func (ua *UserAggregate) Register(userRepo repositories.UserRepository) error {

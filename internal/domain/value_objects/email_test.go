@@ -32,3 +32,13 @@ func TestNewEmail_InvalidEmail_SpecialCharacters(t *testing.T) {
 	}
 }
 
+// EmailのValueメソッドのテスト
+func TestEmail_Value(t *testing.T) {
+	email, err := NewEmail("test@example.com")
+	if err != nil {
+		t.Fatalf("Failed to create email: %v", err)
+	}
+	if email.Value() != "test@example.com" {
+		t.Errorf("Expected email value to be 'test@example.com', but got: %v", email.Value())
+	}
+}
