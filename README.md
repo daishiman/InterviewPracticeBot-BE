@@ -31,18 +31,19 @@ project-root/
 │   ├── server/               # サーバーのエントリーポイント
 │
 ├── internal/                 # 内部パッケージ
+│   ├── application_services/ # アプリケーションサービスの定義
 │   ├── config/               # アプリケーションの設定や環境変数を管理
 │   ├── domain/               # ドメインロジック
-│       ├── entities/         # エンティティの定義
-│       ├── value_objects/    # バリューオブジェクトの定義
 │       ├── aggregates/       # アグリゲートの定義
-│       ├── utilities/        # ドメイン層で使用する共通のユーティリティ関数やコンポーネント
-│       └── repositories/     # リポジトリのインターフェース定義
-│   ├── infrastructure/       # インフラストラクチャ
-│   ├── interfaces/           # インタフェース
+│       ├── entities/         # エンティティの定義
+│       ├── services/         # ドメインサービスの定義
+│       ├── repositories/     # リポジトリのインターフェース定義
+│       ├── repositories/     # リポジトリのインターフェース定義
+│       └── value_objects/    # バリューオブジェクトの定義
+│   ├── infrastructure/       # インフラストラクチャ (データベースや外部サービスとの接続など)
 │   ├── middleware/           # ミドルウェアのロジック (例: 認証ミドルウェア、ロギングミドルウェアなど)
 │   └── usecase/              # ユースケース
-│       └── userusecase/      # InterviewPracticeBot-BEのユースケース
+│       └── userusecase/      # Userのユースケース
 │           ├── mock/         # このディレクトリにモックを配置
 │
 ├── migrations/               # データベースマイグレーションファイル
@@ -78,8 +79,11 @@ go get -u github.com/gorilla/mux \
         gorm.io/plugin/dbresolver \
         github.com/smartystreets/goconvey \
         github.com/go-sql-driver/mysql \
-        github.com/google/uuid \
-        github.com/go-swagger/go-swagger/cmd/swagger
+				github.com/google/uuid \
+				github.com/go-swagger/go-swagger/cmd/swagger \
+				github.com/maxatome/go-testdeep \
+				github.com/go-delve/delve/cmd/dlv \
+				github.com/stretchr/testify
 ```
 
 #### PlanetScaleのセットアップ
