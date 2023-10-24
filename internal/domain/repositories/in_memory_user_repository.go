@@ -10,6 +10,8 @@ type InMemoryUserRepository struct {
 	emailToUser map[string]*entities.UserPrivate
 }
 
+var _ IUserPrivateRepository = (*InMemoryUserRepository)(nil)
+
 func NewInMemoryUserRepository() *InMemoryUserRepository {
 	return &InMemoryUserRepository{
 		users:       make(map[string]*entities.UserPrivate),

@@ -1,6 +1,7 @@
 package value_objects
 
 import (
+	"strings"
 	"testing"
 
 	"golang.org/x/crypto/bcrypt"
@@ -91,42 +92,47 @@ func TestHashPassword_Error(t *testing.T) {
 
 // 正常系: 限定的な特殊文字を含む有効なパスワード
 func TestIsValidPassword_LimitedSpecialCharacters(t *testing.T) {
-    isValid := isValidPassword("Aa1234!@#$%^&*")
-    if !isValid {
-        t.Error("Expected password with limited special characters to be valid, but it wasn't")
-    }
+	isValid := isValidPassword("Aa1234!@#$%^&*")
+	if !isValid {
+		t.Error("Expected password with limited special characters to be valid, but it wasn't")
+	}
 }
 
 // 異常系: ( を含むパスワード
 func TestIsValidPassword_WithOpenParenthesis(t *testing.T) {
-    isValid := isValidPassword("Aa1234(")
-    if isValid {
-        t.Error("Expected password with '(' to be invalid, but it was valid")
-    }
+	isValid := isValidPassword("Aa1234(")
+	if isValid {
+		t.Error("Expected password with '(' to be invalid, but it was valid")
+	}
 }
 
 // 異常系: ) を含むパスワード
 func TestIsValidPassword_WithCloseParenthesis(t *testing.T) {
-    isValid := isValidPassword("Aa1234)")
-    if isValid {
-        t.Error("Expected password with ')' to be invalid, but it was valid")
-    }
+	isValid := isValidPassword("Aa1234)")
+	if isValid {
+		t.Error("Expected password with ')' to be invalid, but it was valid")
+	}
 }
 
 // 異常系: - を含むパスワード
 func TestIsValidPassword_WithHyphen(t *testing.T) {
-    isValid := isValidPassword("Aa1234-")
-    if isValid {
-        t.Error("Expected password with '-' to be invalid, but it was valid")
-    }
+	isValid := isValidPassword("Aa1234-")
+	if isValid {
+		t.Error("Expected password with '-' to be invalid, but it was valid")
+	}
 }
 
 // 異常系: _ を含むパスワード
 func TestIsValidPassword_WithUnderscore(t *testing.T) {
-    isValid := isValidPassword("Aa1234_")
-    if isValid {
-        t.Error("Expected password with '_' to be invalid, but it was valid")
-    }
+	isValid := isValidPassword("Aa1234_")
+	if isValid {
+		t.Error("Expected password with '_' to be invalid, but it was valid")
+	}
 }
 
-
+func TestNewPassword_LongLength(t *testing.T) {
+	_, err := NewPassword("Aa1!" + strings.Repeat("a", 200))
+	if err == nil {
+		t.Error("Expected an error for long password, but got none")
+	}
+}

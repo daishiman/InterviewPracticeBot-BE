@@ -7,7 +7,7 @@ import (
 
 var ErrUserNotFound = errors.New("user not found")
 
-type UserRepository interface {
+type IUserPrivateRepository interface {
 	FindByID(id string) (*entities.UserPrivate, error)
 
 	FindByEmail(email string) (*entities.UserPrivate, error)

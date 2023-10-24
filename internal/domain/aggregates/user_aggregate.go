@@ -11,6 +11,8 @@ type UserAggregate struct {
 	User *entities.UserPrivate
 }
 
+var _ IUserAggregate = (*UserAggregate)(nil)
+
 func NewUserAggregate(factory *UserFactory, email, rawPassword string) (*UserAggregate, error) {
 	user, err := factory.CreateUser(email, rawPassword)
 	if err != nil {
@@ -25,7 +27,7 @@ func (ua *UserAggregate) Register() (*entities.UserPrivate, error) {
 	return ua.User, nil
 }
 
-func (ua *UserAggregate) UpdatePassword(oldPassword, NewPassword string, userRepo repositories.UserRepository) error {
+func (ua *UserAggregate) UpdatePassword(oldPassword, NewPassword string, userRepo repositories.IUserPrivateRepository) error {
 	isCorrect, err := value_objects.ComparePassword(ua.User.Password.Value(), oldPassword)
 	if err != nil || !isCorrect {
 		return errors.New("incorrect old password")
@@ -37,5 +39,4 @@ func (ua *UserAggregate) UpdatePassword(oldPassword, NewPassword string, userRep
 	}
 	ua.User.Password = *newPasswordObj
 	return userRepo.Save(ua.User)
-
 }
