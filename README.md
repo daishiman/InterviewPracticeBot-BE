@@ -83,7 +83,8 @@ go get -u github.com/gorilla/mux \
 				github.com/go-swagger/go-swagger/cmd/swagger \
 				github.com/maxatome/go-testdeep \
 				github.com/go-delve/delve/cmd/dlv \
-				github.com/stretchr/testify
+				github.com/stretchr/testify \
+        github.com/golang-jwt/jwt/v5
 ```
 
 #### PlanetScaleのセットアップ
