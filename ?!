@@ -1,0 +1,19 @@
+package userusecase
+
+import (
+	"InterviewPracticeBot-BE/internal/domain/aggregates"
+	"InterviewPracticeBot-BE/internal/domain/repositories"
+	"testing"
+)
+
+func TestUpdatePassword_Success(t *testing.T) {
+	repo := repositories.NewInMemoryUserRepository()
+	factory := aggregates.NewUserFactory()
+	userAggregate, _ := aggregates.NewUserAggregate(factory, "test@example.com", "Test@1234")
+	_ = userAggregate.Register(repo)
+
+	err := userAggregate.UpdatePassword("Test@1234", "NewTest@1234", repo)
+	if err != nil {
+		t.Fatalf("expected no error, but got %v", err)
+	}
+}

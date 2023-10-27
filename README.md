@@ -12,6 +12,8 @@
 - [Docker設定](#docker設定)
 - [データベースの設定](#データベースの設定)
 - [品質改善ツール](#品質改善ツール)
+- [Swaggerの実行](#Swaggerの実行)
+- [テストの実行](#テストの実行)
 - [GitHub Actionsの設定](#github-actionsの設定)
 
 ### プロジェクトディレクトリ構成
@@ -25,26 +27,31 @@ project-root/
 │   ├── workflows/            # CI/CD パイプラインの定義
 │       ├── test_workflow.yml # テストワークフローの定義
 │
-│
 ├── cmd/                      # メインアプリケーション
 │   ├── server/               # サーバーのエントリーポイント
 │
 ├── internal/                 # 内部パッケージ
+│   ├── application_services/ # アプリケーションサービスの定義
 │   ├── config/               # アプリケーションの設定や環境変数を管理
 │   ├── domain/               # ドメインロジック
-│   ├── infrastructure/       # インフラストラクチャ
-│   ├── interfaces/           # インタフェース
+│       ├── aggregates/       # アグリゲートの定義
+│       ├── entities/         # エンティティの定義
+│       ├── services/         # ドメインサービスの定義
+│       ├── repositories/     # リポジトリのインターフェース定義
+│       ├── repositories/     # リポジトリのインターフェース定義
+│       └── value_objects/    # バリューオブジェクトの定義
+│   ├── infrastructure/       # インフラストラクチャ (データベースや外部サービスとの接続など)
 │   ├── middleware/           # ミドルウェアのロジック (例: 認証ミドルウェア、ロギングミドルウェアなど)
 │   └── usecase/              # ユースケース
+│       └── userusecase/      # Userのユースケース
+│           ├── mock/         # このディレクトリにモックを配置
 │
 ├── migrations/               # データベースマイグレーションファイル
 │
 ├── pkg/                      # 外部で利用可能なパッケージ
 │
 ├── Dockerfile                # Docker のビルドファイル
-├── docker-compose.yml        # Docker Compose の設定ファイル
-├── go.mod                    # Go のモジュール依存関係
-└── go.sum                    # Go のモジュール依存関係のチェックサム
+└── docker-compose.yml        # Docker Compose の設定ファイル
 ```
 
 ### 環境設定
@@ -71,7 +78,13 @@ go get -u github.com/gorilla/mux \
         gorm.io/gorm \
         gorm.io/plugin/dbresolver \
         github.com/smartystreets/goconvey \
-        github.com/go-sql-driver/mysql
+        github.com/go-sql-driver/mysql \
+				github.com/google/uuid \
+				github.com/go-swagger/go-swagger/cmd/swagger \
+				github.com/maxatome/go-testdeep \
+				github.com/go-delve/delve/cmd/dlv \
+				github.com/stretchr/testify \
+        github.com/golang-jwt/jwt/v5
 ```
 
 #### PlanetScaleのセットアップ
@@ -142,6 +155,20 @@ golangci-lint run
 ```bash
 gofmt -w .
 ```
+
+### Swaggerの実行
+
+```bash
+swagger generate spec -o ./swagger.json
+```
+
+
+### テストの実行
+
+```bash
+go test ./internal
+```
+
 
 ### GitHub Actionsの設定
 
