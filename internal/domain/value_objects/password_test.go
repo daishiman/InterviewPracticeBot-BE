@@ -59,12 +59,12 @@ func TestPassword_Value(t *testing.T) {
 }
 
 // ComparePassword関数のテスト
-func TestComparePassword(t *testing.T) {
+func TestPassword_Compare(t *testing.T) {
 	password, err := NewPassword("Aa1234567890!")
 	if err != nil {
 		t.Fatalf("Failed to create password: %v", err)
 	}
-	isMatch, err := ComparePassword(password.Value(), "Aa1234567890!")
+	isMatch, err := password.Compare("Aa1234567890!")
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}

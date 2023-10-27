@@ -6,7 +6,7 @@ import (
 )
 
 type UserPrivate struct {
-	ID           string
+	ID           *value_objects.UUID
 	Email        value_objects.Email
 	Password     value_objects.Password
 	Verification value_objects.Verification
@@ -17,7 +17,7 @@ type UserPrivate struct {
 
 var _ IUserPrivate = (*UserPrivate)(nil)
 
-func (u *UserPrivate) GetID() string {
+func (u *UserPrivate) GetID() *value_objects.UUID {
 	return u.ID
 }
 

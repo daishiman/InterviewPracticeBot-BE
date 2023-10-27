@@ -6,7 +6,7 @@ import (
 )
 
 type IUserPrivate interface {
-	GetID() string
+	GetID() *value_objects.UUID
 	GetEmail() value_objects.Email
 	GetPassword() value_objects.Password
 	GetVerification() value_objects.Verification

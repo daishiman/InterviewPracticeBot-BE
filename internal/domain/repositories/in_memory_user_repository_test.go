@@ -8,6 +8,11 @@ import (
 )
 
 func createTestUser(emailValue string, passwordValue string) (*entities.UserPrivate, error) {
+	uuidObj, err := value_objects.NewUUID()
+	if err != nil {
+		return nil, err
+	}
+
 	emailObj, err := value_objects.NewEmail(emailValue)
 	if err != nil {
 		return nil, err
@@ -19,7 +24,7 @@ func createTestUser(emailValue string, passwordValue string) (*entities.UserPriv
 	}
 
 	return &entities.UserPrivate{
-		ID:        "1",
+		ID:        uuidObj,
 		Email:     *emailObj,
 		Password:  *passwordObj,
 		CreatedAt: time.Now(),
@@ -67,15 +72,15 @@ func TestInMemoryUserRepository_Save_InvalidData(t *testing.T) {
 }
 
 // FindByIDメソッドの正常系テスト
-func TestInMemoryauserRepository_FindByID_ExisingUser(t *testing.T) {
+func TestInMemoryUserRepository_FindByID_ExisingUser(t *testing.T) {
 	repo := NewInMemoryUserRepository()
 	user, err := createTestUser("test@example.com", "Password1234!")
 	if err != nil {
-		t.Fatalf("Faild to create user: %v", err)
+		t.Fatalf("faild to create user: %v", err)
 	}
 	repo.Save(user)
-	foundUser, err := repo.FindByID("1")
-	if err != nil || foundUser.ID != "1" {
+	foundUser, err := repo.FindByID(user.ID.String())
+	if err != nil || foundUser.ID.String() != "1" {
 		t.Errorf("Expeted to find user with ID 1, but got: %v, err: %v", foundUser, err)
 	}
 }

@@ -2,7 +2,6 @@ package aggregates
 
 import (
 	"InterviewPracticeBot-BE/internal/domain/entities"
-	"InterviewPracticeBot-BE/internal/domain/utilities"
 	"InterviewPracticeBot-BE/internal/domain/value_objects"
 	"time"
 )
@@ -13,13 +12,8 @@ func NewUserFactory() *UserFactory {
 	return &UserFactory{}
 }
 
-func (uf *UserFactory) CreateUser(email, rawPassword string) (*entities.UserPrivate, error) {
-	emailVO, err := uf.createEmail(email)
-	if err != nil {
-		return nil, err
-	}
-
-	passwordVO, err := uf.createPassword(rawPassword)
+func (uf *UserFactory) CreateUser(emailVO value_objects.Email, passwordVO value_objects.Password) (*entities.UserPrivate, error) {
+	uuidVO, err := uf.createUUID()
 	if err != nil {
 		return nil, err
 	}
@@ -30,14 +24,22 @@ func (uf *UserFactory) CreateUser(email, rawPassword string) (*entities.UserPriv
 	}
 
 	user := &entities.UserPrivate{
-		ID:           utilities.GenerateUUID(),
-		Email:        *emailVO,
-		Password:     *passwordVO,
+		ID:           uuidVO,
+		Email:        emailVO,
+		Password:     passwordVO,
 		Verification: *verificationVO,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
 	}
 	return user, nil
+}
+
+func (uf *UserFactory) createUUID() (*value_objects.UUID, error) {
+	uuid, err := value_objects.NewUUID()
+	if err != nil {
+		return nil, err
+	}
+	return uuid, nil
 }
 
 func (uf *UserFactory) createEmail(email string) (*value_objects.Email, error) {

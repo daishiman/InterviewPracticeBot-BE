@@ -36,10 +36,10 @@ func (repo *InMemoryUserRepository) FindByEmail(email string) (*entities.UserPri
 }
 
 func (repo *InMemoryUserRepository) Save(user *entities.UserPrivate) error {
-	if _, exists := repo.users[user.ID]; exists {
+	if _, exists := repo.users[user.ID.String()]; exists {
 		return errors.New("user already exists")
 	}
-	repo.users[user.ID] = user
+	repo.users[user.ID.String()] = user
 	repo.emailToUser[user.Email.Value()] = user
 	return nil
 }
